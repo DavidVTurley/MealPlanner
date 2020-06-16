@@ -1,0 +1,12 @@
+C:\Users\David\source\repos\DBConnection\DBConnection\bin\Debug\DBConnection.dll
+C:\Users\David\source\repos\DBConnection\DBConnection\bin\Debug\DBConnection.pdb
+C:\Users\David\source\repos\DBConnection\DBConnection\bin\Debug\MySql.Data.dll
+C:\Users\David\source\repos\DBConnection\DBConnection\bin\Debug\Google.Protobuf.dll
+C:\Users\David\source\repos\DBConnection\DBConnection\bin\Debug\Renci.SshNet.dll
+C:\Users\David\source\repos\DBConnection\DBConnection\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\David\source\repos\DBConnection\DBConnection\bin\Debug\MySql.Data.xml
+C:\Users\David\source\repos\DBConnection\DBConnection\obj\Debug\DBConnection.csprojAssemblyReference.cache
+C:\Users\David\source\repos\DBConnection\DBConnection\obj\Debug\DBConnection.csproj.CopyComplete
+C:\Users\David\source\repos\DBConnection\DBConnection\obj\Debug\DBConnection.dll
+C:\Users\David\source\repos\DBConnection\DBConnection\obj\Debug\DBConnection.pdb
+C:\Users\David\source\repos\DBConnection\DBConnection\obj\Debug\DBConnection.csproj.CoreCompileInputs.cache
