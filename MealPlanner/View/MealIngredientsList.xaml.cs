@@ -51,7 +51,13 @@ namespace MealPlanner.View
                     foreach (Ingredient ingredient in ìngredientsList)
                     {
                         //If the meal is already on the list
-                        if(ingredientInViewModel.Name.ToLower(CultureInfo.InvariantCulture) == ingredient.Name.ToLower(CultureInfo.InvariantCulture))
+                        var s = ingredientInViewModel.Name.ToLower(CultureInfo.InvariantCulture) == 
+                                ingredient.Name.ToLower(CultureInfo.InvariantCulture);
+                        var q = ingredientInViewModel.Name.ToLower(CultureInfo.InvariantCulture);
+                        var w = ingredient.Name.ToLower(CultureInfo.InvariantCulture);
+
+
+                        if (ingredientInViewModel.Name.ToLower(CultureInfo.InvariantCulture) == ingredient.Name.ToLower(CultureInfo.InvariantCulture))
                         {
                             foundInIngredients = true;
                             // Ingredient is the same unit

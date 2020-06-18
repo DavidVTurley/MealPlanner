@@ -64,10 +64,7 @@ namespace MealPlanner.Model
         public static void AddMealToDataBase(Meal meal)
         {
             Connection.DbConnection.OpenConnection();
-            Connection.DbConnection.Insert($"INSERT INTO `meal`(`mealName`) VALUES ('{meal.Name}')");
-            Connection.DbConnection.CloseConnection();
-            Connection.DbConnection.OpenConnection();
-            meal.MealId = Connection.DbConnection.GetLastInsertedId();
+            meal.MealId = Connection.DbConnection.Insert($"INSERT INTO `meal`(`mealName`) VALUES ('{meal.Name}')");
             Connection.DbConnection.CloseConnection();
 
             foreach (Ingredient mealIngredient in meal.Ingredients)

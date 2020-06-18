@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\David\source\repos\RecipieCreator\MealPlanner\obj\Debug\
+C:\Users\David\source\repos\MealPlanner\MealPlanner\obj\Debug\
 MealPlanner
 none
 false
 DEBUG;TRACE
-C:\Users\David\source\repos\RecipieCreator\MealPlanner\App.xaml
+C:\Users\David\source\repos\MealPlanner\MealPlanner\App.xaml
 8956559858
 
 231659420745
-16-1446837076
+16222394581
 Controls\PlusControl.xaml;MainWindow.xaml;Template\IngredientsTemplate.xaml;Template\ShoppingListTemplate.xaml;View\AddEditMealView.xaml;View\MealIngredientsList.xaml;View\MealPlannerView.xaml;View\ManageMealsView.xaml;
 
 False

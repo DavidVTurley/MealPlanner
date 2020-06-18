@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MealPlanner"
         xmlns:views="clr-namespace:MealPlanner.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" MinHeight="450"  MinWidth="800">
+        Title="MainWindow" Height="500" Width="1000" MinHeight="450"  MinWidth="800">
     <Window.Resources>
         <Style TargetType="{x:Type Control}" x:Key="baseStyle">
             <Setter Property="FontSize" Value="25" />
@@ -28,15 +28,20 @@
         </Grid.LayoutTransform>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
         <StackPanel Background="AliceBlue">
             <Button Height="50" x:Name="MealsNavButton" Click="MealsNavButton_OnClick" Content="Meals"/>
             <Button Height="50" x:Name="MealPlannerIngredientList" Click="MealPlannerIngredientsList_OnClick" Content="Ingredient List"/>
             <Button Height="50" x:Name="ManageMealsNavButton" Click="ManageMealsNavButton_OnClick" Content="Manage Meals"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Name="ContentStackPanel">
-            <views:ManageMealsView Grid.Column="1" />
-        </StackPanel>
+        
+        <Grid Grid.Column="1" Name="ContentGrid" >
+            <views:MealPlannerView />
+        </Grid>
     </Grid>
 </Window>

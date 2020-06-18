@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -140,49 +141,33 @@ namespace MealPlanner.Model
             return meals;
         }
 
-        public static MealPlannerModel CreateNewMealPlanner(List<MealPlannerMeal> meals, Int32 numberOfMeals)
+        /// <summary>
+        /// Gets a new MealPlannerModel and connects a number of new meals with it
+        /// </summary>
+        /// <param name="numberOfNewMeals"></param>
+        /// <returns></returns>
+        public static MealPlannerModel GetNewMealPlannerModel(Int32 numberOfNewMeals, Int32 numOfPpl, Int32 numOfVege)
         {
+            // Insert new MealPlanner into database
             DBConnection connection = new DBConnection();
-
             connection.OpenConnection();
             connection.Insert("INSERT INTO `mealplanner`(`id`) VALUES ('');");
-
-            MealPlannerModel mealPlanner = new MealPlannerModel(connection.GetLastInsertedId(), meals);
-            mealPlanner.NumberOfPeopleInput = numberOfMeals;
+            Int32 newMealPlannerId = connection.GetLastInsertedId();
             connection.CloseConnection();
 
-            return mealPlanner;
-        }
+            List<MealPlannerMeal> meals = MealPlannerMeal.ConvertMealsIntoMealPlannerMeals(Meal.GetRandomMeals(numberOfNewMeals), newMealPlannerId, numOfPpl, numOfVege);
 
-        public static void AddNewMealToMealPlannerModel(Int32 NewMealsToGenerate, Int32 numberOfPeopleInMeal, Int32 NumberOfVegetarians, MealPlannerModel newViewModel)
-        {
-            List<MealPlannerMeal> meals = new List<MealPlannerMeal>();
-
-            foreach (Meal randomMeal in Meal.GetRandomMeals(NewMealsToGenerate))
+            foreach (MealPlannerMeal mealPlannerMeal in meals)
             {
-                MealPlannerMeal meal = new MealPlannerMeal(randomMeal, newViewModel.Id, numberOfPeopleInMeal, NumberOfVegetarians);
-
-                newViewModel.Meals.Add(meal);
-
-                //if meal planner is not in the database do not save it else add it to the meal planner meals
-                if (newViewModel.Id < 0) return;
-                DBConnection connection = new DBConnection();
-
-                connection.OpenConnection();
-                if (newViewModel.Id <= 0)
-                {
-                    Int32 s = newViewModel.Id;
-                }
-
-                connection.Insert($"INSERT INTO `mealplanner_meals`(`mealPlanner_ID`, `meal_Id`, `numberOfPeople`, `numberOfVegetarians`) VALUES ('{newViewModel.Id}', '{meal.MealId}', '{meal.NumberOfPeople}', '{meal.NumberOfVegetarians}')");
-                connection.CloseConnection();
+                MealPlannerMeal.AddMealPlannerMealToDatabase(mealPlannerMeal, mealPlannerMeal.MealPlannerId);
             }
+
+
+
+            return new MealPlannerModel(newMealPlannerId, meals);
         }
-        public static void AddNewMealToMealPlannerModel(MealPlannerModel oldViewModel ,MealPlannerModel newViewModel)
-        {
-            AddNewMealToMealPlannerModel(oldViewModel.GenerateNewListAmountToGenerate, oldViewModel.NumberOfPeopleInput,
-                oldViewModel.NumberOfVegetarianInput, newViewModel);
-        }
+
+
         public static void CalculateMealIngredients(MealPlannerMeal meal)
         {
             Int32 meatEaters = meal.NumberOfPeople - meal.NumberOfVegetarians;
@@ -192,11 +177,15 @@ namespace MealPlanner.Model
             {
                 if (ingredient.Vegetarian)
                 {
-                    ingredient.ServingSize = ingredient.ServingSize * vegetarians;
+                    ingredient.ServingSize *= vegetarians;
+                }
+                else if (ingredient.ReplaceIfVegetarian)
+                {
+                    ingredient.ServingSize *= meatEaters;
                 }
                 else
                 {
-                    ingredient.ServingSize = ingredient.ServingSize * meatEaters;
+                    ingredient.ServingSize *= (meatEaters + vegetarians);
                 }
             }
         }

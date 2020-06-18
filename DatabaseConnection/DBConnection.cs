@@ -42,22 +42,22 @@ namespace DatabaseConnection
                 UserID = "root", 
                 Password = ""
             };
-#if DEBUG
+//#if DEBUG
 
 
             //_connectionString.Server = "185.56.145.33/";
             //_connectionString.Database = "dav52005_meal_planner";
-            //_connectionString.UserID = "dav52005_david";
-            //_connectionString.Password = "XfyQjjK86JxL";
+            //_connectionString.UserID = "dav52005";
+            //_connectionString.Password = "Dag1962020";
 
-            
-#endif
-#if !DEBUG
-            _server = server;
-            _database = database;
-            _userName = username;
-            _password = password;
-#endif
+
+//#endif
+//#if !DEBUG
+//            _server = server;
+//            _database = database;
+//            _userName = username;
+//            _password = password;
+//#endif
 
             _connection = new MySqlConnection(_connectionString.ConnectionString);
             _connectionTimeout = _connection.ConnectionTimeout;

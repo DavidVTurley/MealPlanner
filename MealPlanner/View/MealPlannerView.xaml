@@ -30,7 +30,8 @@
         </StackPanel>
         <Button Grid.Row="0" Grid.Column="2" Content="Add meal" Margin="5, 0" Click="AddNewMeal_Click" />
         <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal">
-            <TextBox Width="40" Text="{Binding GenerateNewListAmountToGenerate, Mode=TwoWay}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            <TextBox Width="40" Text="{Binding GenerateNewListAmountToGenerate, Mode=TwoWay}" HorizontalContentAlignment="Center"
+                     VerticalContentAlignment="Center" />
             <Button Content="Generate new list" Margin="5, 0" Click="GenerateNewMealList_Click" />
         </StackPanel>
 

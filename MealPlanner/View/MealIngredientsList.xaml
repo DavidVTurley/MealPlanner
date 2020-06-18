@@ -7,12 +7,14 @@
              xmlns:templates="clr-namespace:MealPlanner.Template"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Button Content="Print" Click="PrintOutIngredientsClick"></Button>
-        </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Button Content="Print" Click="PrintOutIngredientsClick"></Button>
 
-        <ListView Name="ListView">
+        <ListView Grid.Row="1" Name="ListView">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -21,5 +23,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        </StackPanel>
+    </Grid>
 </UserControl>

@@ -111,9 +111,6 @@ namespace MealPlanner.Model
 
             Connection.DbConnection.OpenConnection();
             Connection.DbConnection.Insert($"INSERT INTO `ingredients`( `ingredientName`, `vegetarian`, `replaceIfVegetarian`, `servingUnit`, `servingSize`) VALUES ('{ingredient.Name}','{vegetarian}','{replaceIfVegitarian}','{ingredient.SelectedServingUnit + 1}','{ingredient.ServingSize}'); ");
-            Connection.DbConnection.CloseConnection();
-
-            Connection.DbConnection.OpenConnection();
             ingredient.Id = Connection.DbConnection.GetLastInsertedId();
             Connection.DbConnection.CloseConnection();
             LinkMealAndIngredients(mealId, ingredient);

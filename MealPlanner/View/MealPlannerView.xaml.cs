@@ -53,25 +53,30 @@ namespace MealPlanner.View
 
         private void AddNewMeal_Click(Object sender, RoutedEventArgs e)
         {
-
-            MealPlannerModel.AddNewMealToMealPlannerModel(ViewModel, ViewModel);
+            MealPlannerMeal meal = MealPlannerMeal.GetRandomMeals(1, ViewModel.Id, ViewModel.NumberOfPeopleInput, ViewModel.NumberOfVegetarianInput)[0];
+            MealPlannerMeal.AddMealPlannerMealToDatabase(meal, ViewModel.Id);
+            MealPlannerModel.CalculateMealIngredients(meal);
+            ViewModel.Meals.Add(meal);
         }
 
         private void RefreshMealClick(Object sender, RoutedEventArgs e)
         {
+            //Gets the list of selected items
             Int32 numberOfSelectedItems = ListViewMeals.SelectedItems.Count;
             List<MealPlannerMeal> mealPlannerMeal = new List<MealPlannerMeal>(ListViewMeals.SelectedItems.Cast<MealPlannerMeal>());
-
-            foreach (MealPlannerMeal meal in mealPlannerMeal)
+            
+            // Remove the link to the meal
+            foreach (MealPlannerMeal mealToRemove in mealPlannerMeal)
             {
-                DBConnection connection = new DBConnection();
-
-                connection.OpenConnection();
-                connection.Delete($"DELETE FROM `mealplanner_meals` WHERE `mealPlanner_ID` = '{meal.MealPlannerId}' AND `meal_Id` = '{meal.MealId}'; ");
-                connection.CloseConnection();
-
-                ViewModel.Meals.Remove(meal);
-                MealPlannerModel.AddNewMealToMealPlannerModel(numberOfSelectedItems, ViewModel.NumberOfPeopleInput, ViewModel.NumberOfVegetarianInput, ViewModel);
+                // Remove value from database
+                MealPlannerMeal.RemoveMealPlannerMealFromDatabase(mealToRemove.MealId, mealToRemove.MealPlannerId);
+                // Get new mealPlannerMeal
+                MealPlannerMeal meal = MealPlannerMeal.ConvertMealsIntoMealPlannerMeals(Meal.GetRandomMeals(1), mealToRemove.MealPlannerId, mealToRemove.NumberOfPeople, mealToRemove.NumberOfVegetarians)[0];
+                // Adds mealPlanner Meal to the database
+                MealPlannerMeal.AddMealPlannerMealToDatabase(meal, meal.MealPlannerId);
+                // Add the mealplanner to the list of meals
+                MealPlannerModel.CalculateMealIngredients(meal);
+                ViewModel.Meals[ViewModel.Meals.IndexOf(mealToRemove)] = meal;
             }
         }
         private void GenerateNewMealList_Click(Object sender, RoutedEventArgs e)
@@ -80,9 +85,11 @@ namespace MealPlanner.View
             MealPlannerModel oldVieModel = ViewModel;
 
             //Generates a new mealplanner id
-            ViewModel = MealPlannerModel.CreateNewMealPlanner(new List<MealPlannerMeal>(), ViewModel.NumberOfPeopleInput);
-
-            MealPlannerModel.AddNewMealToMealPlannerModel(oldVieModel, ViewModel);
+            ViewModel = MealPlannerModel.GetNewMealPlannerModel(ViewModel.GenerateNewListAmountToGenerate, ViewModel.NumberOfPeopleInput, ViewModel.NumberOfVegetarianInput);
+            foreach (MealPlannerMeal mealPlannerMeal in ViewModel.Meals)
+            {
+                MealPlannerModel.CalculateMealIngredients(mealPlannerMeal);
+            }
         }
     }
 }

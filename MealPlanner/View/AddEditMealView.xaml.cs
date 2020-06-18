@@ -50,6 +50,8 @@ namespace MealPlanner.View
             }
         }
 
+        
+
         private void OnSaveClick(Object sender, RoutedEventArgs e)
         {
             if (ViewModel.Meal.MealId >= 0)
@@ -62,8 +64,8 @@ namespace MealPlanner.View
                 // add new meal
                 Meal.AddMealToDataBase(ViewModel.Meal);
             }
-
-            //TODO Remove Removed ingredients
+            
+            IsEnabled = false;
         }
     }
 }

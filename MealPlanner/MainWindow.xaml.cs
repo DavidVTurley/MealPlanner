@@ -32,13 +32,13 @@ namespace MealPlanner
 
         public void ChangeContentWindow(UserControl control)
         {
-            ContentStackPanel.Children.Clear();
-            ContentStackPanel.Children.Add(control);
+            ContentGrid.Children.Clear();
+            ContentGrid.Children.Add(control);
         }
 
         private void MealsNavButton_OnClick(Object sender, RoutedEventArgs e)
         {
-            ChangeContentWindow(new View.MealPlannerView());
+            ChangeContentWindow(new MealPlannerView());
         }
 
         private void ManageMealsNavButton_OnClick(Object sender, RoutedEventArgs e)
