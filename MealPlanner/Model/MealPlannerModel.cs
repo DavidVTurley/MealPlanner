@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Dynamic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media.Effects;
 using DatabaseConnection;
-using MealPlanner.Resources;
-using MealPlanner.ViewModel;
 
 namespace MealPlanner.Model
 {
@@ -27,6 +22,17 @@ namespace MealPlanner.Model
             {
                 _generateNewListAmountToGenerate = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(Meals));
+                OnPropertyChanged(nameof(Id));
+
+                MealPlannerModel newMealPlanner = GetNewMealPlannerModel(value, NumberOfPeopleInput, NumberOfVegetarianInput);
+
+                Id = newMealPlanner.Id;
+                Meals.Clear();
+                foreach (MealPlannerMeal mealPlannerMeal in newMealPlanner.Meals)
+                {
+                    Meals.Add(mealPlannerMeal);
+                }
             }
         }
 
@@ -54,6 +60,7 @@ namespace MealPlanner.Model
             set
             {
                 _numberOfPeopleInput = value;
+                UpdateNumPeople(value, "numberOfPeople");
                 OnPropertyChanged();
             }
         }
@@ -63,6 +70,7 @@ namespace MealPlanner.Model
             set
             {
                 _numberOfVegetarianInput = value;
+                UpdateNumPeople(value, "numberOfVegetarians");
                 OnPropertyChanged();
             }
         }
@@ -167,27 +175,63 @@ namespace MealPlanner.Model
             return new MealPlannerModel(newMealPlannerId, meals);
         }
 
+        public void UpdateNumPeople(Int32 newValue, String dbField)
+        {
+            DBConnection connection = new DBConnection();
+            connection.OpenConnection();
+            connection.Update($"UPDATE `mealplanner_meals` SET `{dbField}` = '{newValue}' WHERE `mealPlanner_ID` = '{Id}'");
+            connection.CloseConnection();
 
+            foreach (MealPlannerMeal mealPlannerMeal in Meals)
+            {
+                switch (dbField)
+                {
+                    case "numberOfPeople":
+                        mealPlannerMeal.NumberOfPeople = newValue;
+                        break;
+                    case "numberOfVegetarians":
+                        mealPlannerMeal.NumberOfVegetarians = newValue;
+                        break;
+                }
+
+                CalculateMealIngredients(mealPlannerMeal);
+            }
+
+        }
         public static void CalculateMealIngredients(MealPlannerMeal meal)
         {
             Int32 meatEaters = meal.NumberOfPeople - meal.NumberOfVegetarians;
             Int32 vegetarians = meal.NumberOfVegetarians;
 
+            List<Ingredient> baseIngredients = Ingredient.GetListOfIngredientsFromMealId(meal.MealId);
+
             foreach (Ingredient ingredient in meal.Ingredients)
             {
+                Ingredient baseIngredient = baseIngredients.Where(x => x.Id == ingredient.Id).ToList()[0];
+
                 if (ingredient.Vegetarian)
                 {
-                    ingredient.ServingSize *= vegetarians;
+                    ingredient.ServingSize = baseIngredient.ServingSize * vegetarians;
                 }
                 else if (ingredient.ReplaceIfVegetarian)
                 {
-                    ingredient.ServingSize *= meatEaters;
+                    ingredient.ServingSize = baseIngredient.ServingSize * meatEaters;
                 }
                 else
                 {
-                    ingredient.ServingSize *= (meatEaters + vegetarians);
+                    ingredient.ServingSize = baseIngredient.ServingSize * (meatEaters + vegetarians);
                 }
             }
+        }
+    }
+
+    public class CreateNewMealsEventArgs : EventArgs
+    {
+        public Int32 NewAmountOfMeals;
+
+        public CreateNewMealsEventArgs(Int32 newAmountOfMeals)
+        {
+            NewAmountOfMeals = newAmountOfMeals;
         }
     }
 }

@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MealPlanner.Model;
 using MealPlanner.View;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace MealPlanner
 {
@@ -23,12 +13,22 @@ namespace MealPlanner
     public partial class MainWindow : Window
     {
         public static MainWindow MainWindowAccessor;
+        //public Process Xammp;
 
         public MainWindow()
         {
             InitializeComponent();
             MainWindowAccessor = this;
+            //Xammp = new Process();
+
+            //Xammp.StartInfo.FileName = @"Misc install\Xampp\xampp-control.exe";
+            //Xammp.EnableRaisingEvents = true;
+
+            //Xammp.Start();
+
+            
         }
+        
 
         public void ChangeContentWindow(UserControl control)
         {

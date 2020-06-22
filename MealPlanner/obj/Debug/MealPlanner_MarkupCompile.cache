@@ -12,9 +12,9 @@ DEBUG;TRACE
 C:\Users\David\source\repos\MealPlanner\MealPlanner\App.xaml
 8956559858
 
-231659420745
-16222394581
+221054097854
+9263303670
 Controls\PlusControl.xaml;MainWindow.xaml;Template\IngredientsTemplate.xaml;Template\ShoppingListTemplate.xaml;View\AddEditMealView.xaml;View\MealIngredientsList.xaml;View\MealPlannerView.xaml;View\ManageMealsView.xaml;
 
-False
+True
 

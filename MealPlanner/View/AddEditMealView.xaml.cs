@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using DatabaseConnection;
 using MealPlanner.Model;
 using MealPlanner.ViewModel;
 
@@ -65,7 +64,7 @@ namespace MealPlanner.View
                 Meal.AddMealToDataBase(ViewModel.Meal);
             }
             
-            IsEnabled = false;
+            MainWindow.MainWindowAccessor.ChangeContentWindow(new ManageMealsView());
         }
     }
 }

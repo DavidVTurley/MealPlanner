@@ -1,5 +1,4 @@
-﻿using System.Windows.Input;
-using MealPlanner.Model;
+﻿using MealPlanner.Model;
 
 namespace MealPlanner.ViewModel
 {

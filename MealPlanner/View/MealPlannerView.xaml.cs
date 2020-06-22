@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using DatabaseConnection;
 using MealPlanner.Model;
-using MealPlanner.Resources;
-using MealPlanner.ViewModel;
 
 namespace MealPlanner.View
 {
@@ -20,7 +14,6 @@ namespace MealPlanner.View
     public partial class MealPlannerView : UserControl
     {
         private MealPlannerModel _viewModel;
-
         public MealPlannerModel ViewModel
         {
             get => _viewModel;
@@ -34,11 +27,8 @@ namespace MealPlanner.View
         public MealPlannerView()
         {
             InitializeComponent();
-            DBConnection connection = new DBConnection();
 
             ViewModel = MealPlannerModel.GetMealPlanner();
-
-            SetDatacontext();
         }
 
         private void SetDatacontext()
@@ -81,15 +71,15 @@ namespace MealPlanner.View
         }
         private void GenerateNewMealList_Click(Object sender, RoutedEventArgs e)
         {
-
-            MealPlannerModel oldVieModel = ViewModel;
-
             //Generates a new mealplanner id
-            ViewModel = MealPlannerModel.GetNewMealPlannerModel(ViewModel.GenerateNewListAmountToGenerate, ViewModel.NumberOfPeopleInput, ViewModel.NumberOfVegetarianInput);
-            foreach (MealPlannerMeal mealPlannerMeal in ViewModel.Meals)
+            MealPlannerModel newModel = MealPlannerModel.GetNewMealPlannerModel(ViewModel.GenerateNewListAmountToGenerate, ViewModel.NumberOfPeopleInput, ViewModel.NumberOfVegetarianInput);
+            
+            foreach (MealPlannerMeal mealPlannerMeal in newModel.Meals)
             {
                 MealPlannerModel.CalculateMealIngredients(mealPlannerMeal);
             }
+
+            ViewModel = newModel;
         }
     }
 }
